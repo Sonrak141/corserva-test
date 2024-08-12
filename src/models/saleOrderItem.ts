@@ -4,7 +4,6 @@ import sequelize from './index';
 class SaleOrderItem extends Model {
   id: any;
 }
-
 SaleOrderItem.init(
   {
     id: {
