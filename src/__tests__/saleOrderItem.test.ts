@@ -27,6 +27,41 @@ describe('Sale Order Item API', () => {
     await SaleOrderItem.truncate();
   });
 
+  it('should get all sale order items', async () => {
+    // Crea varios SaleOrderItems para la prueba
+    await SaleOrderItem.bulkCreate([
+      {
+        productName: 'Product 1',
+        description: 'Description 1',
+        sale: true,
+        quantity: 5,
+        price: 50.0,
+      },
+      {
+        productName: 'Product 2',
+        description: 'Description 2',
+        sale: false,
+        quantity: 10,
+        price: 100.0,
+      },
+      {
+        productName: 'Product 3',
+        description: 'Description 3',
+        sale: true,
+        quantity: 15,
+        price: 150.0,
+      },
+    ]);
+
+    const response = await request(app).get('/api/sale-order-items');
+
+    expect(response.status).toBe(200);
+    expect(response.body.length).toBe(3);
+    expect(response.body[0]).toHaveProperty('productName', 'Product 1');
+    expect(response.body[1]).toHaveProperty('productName', 'Product 2');
+    expect(response.body[2]).toHaveProperty('productName', 'Product 3');
+  });
+
   it('should get a sale order item by ID', async () => {
     const createdItem = await SaleOrderItem.create({
       productName: 'Test Product',

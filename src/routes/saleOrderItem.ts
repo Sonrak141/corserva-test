@@ -38,6 +38,17 @@ router.post('/', async (req: Request, res: Response) => {
   }
 });
 
+// Read all
+router.get('/', async (req: Request, res: Response) => {
+  try {
+    const saleOrderItems = await SaleOrderItem.findAll();
+    res.status(200).json(saleOrderItems);
+  } catch (error) {
+    console.error('Error fetching Sale Order Items:', error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
 // Read
 router.get('/:id', async (req: Request, res: Response) => {
   try {
